@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="491.0" prefWidth="521.0" style="-fx-background-color: #D9D9F3;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.JogoController">
+   <children>
+      <AnchorPane prefHeight="339.0" prefWidth="410.0" style="-fx-border-color: black; -fx-background-color: #00BFFF;">
+         <children>
+            <ImageView fx:id="arvore" fitHeight="98.0" fitWidth="91.0" layoutX="168.0" layoutY="442.0" onMouseClicked="#aumentarTamanho" pickOnBounds="true" preserveRatio="true" y="-200.0">
+               <image>
+                  <Image url="@../Imagem/arvore.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="46.0" fitWidth="71.0" layoutX="4.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Imagem/grama.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="46.0" fitWidth="71.0" layoutX="75.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Imagem/grama.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="46.0" fitWidth="71.0" layoutX="146.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Imagem/grama.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="46.0" fitWidth="71.0" layoutX="211.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Imagem/grama.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="46.0" fitWidth="71.0" layoutX="340.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Imagem/grama.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="46.0" fitWidth="71.0" layoutX="282.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Imagem/grama.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="95.0" fitWidth="91.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Imagem/sun.png" />
+               </image>
+            </ImageView>
+            <Text layoutX="361.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nivel:" />
+            <Text fx:id="labelNivel" layoutX="392.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" />
+            <ProgressBar fx:id="progresso" layoutX="146.0" layoutY="14.0" prefHeight="18.0" prefWidth="149.0" progress="0.0" />
+            <Text layoutX="128.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="XP" />
+            <ImageView fitHeight="58.0" fitWidth="149.0" layoutX="301.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Imagem/nuvem.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="58.0" fitWidth="149.0" layoutX="94.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Imagem/nuvem.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="58.0" fitWidth="149.0" layoutX="14.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Imagem/nuvem.png" />
+               </image>
+            </ImageView>
+            <ProgressIndicator fx:id="pi" layoutX="282.0" layoutY="10.0" progress="0.0" AnchorPane.leftAnchor="282.0" />
+         </children>
+      </AnchorPane>
+      <Text layoutX="430.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menu">
+         <font>
+            <Font name="Segoe Print" size="27.0" />
+         </font></Text>
+      <Text layoutX="452.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quiz">
+         <font>
+            <Font name="Segoe Print" size="14.0" />
+         </font></Text>
+      <Label layoutX="58.0" layoutY="427.0" text="Regar">
+         <font>
+            <Font name="Segoe Print" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="142.0" layoutY="427.0" text="Poldar">
+         <font>
+            <Font name="Segoe Print" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="215.0" layoutY="426.0" text="Elimanar">
+         <font>
+            <Font name="Segoe Script" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="294.0" layoutY="427.0" text="Adubar">
+         <font>
+            <Font name="Segoe Print" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="226.0" layoutY="431.0" prefHeight="24.0" prefWidth="47.0" text="pragas" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="226.0" AnchorPane.rightAnchor="248.0" AnchorPane.topAnchor="431.0">
+         <font>
+            <Font name="Segoe Print" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="446.0" layoutY="253.0" text="Ajuda">
+         <font>
+            <Font name="Segoe Print" size="14.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="66.0" fitWidth="79.0" layoutX="434.0" layoutY="82.0" onMouseClicked="#perguntas" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Imagem/ED+Quiz+(icon).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgAjuda" fitHeight="66.0" fitWidth="69.0" layoutX="434.0" layoutY="187.0" onMouseClicked="#ajuda" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Imagem/ajuda.png" />
+         </image>
+      </ImageView>
+      <ImageView accessibleText="regar" fitHeight="66.0" fitWidth="71.0" layoutX="45.0" layoutY="360.0" onMouseClicked="#regar" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Imagem/regador.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="84.0" fitWidth="79.0" layoutX="126.0" layoutY="357.0" onMouseClicked="#poldar" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Imagem/CoolClips_vc022101.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="71.0" fitWidth="48.0" layoutX="227.0" layoutY="358.0" onMouseClicked="#detetizar" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Imagem/b30eefd0ee53bea5f42976a3ff2beec5.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="71.0" fitWidth="45.0" layoutX="300.0" layoutY="357.0" onMouseClicked="#adubar" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Imagem/40b7d4860380caba8b6950ce46427d5c.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="qtdRegar" layoutX="75.0" layoutY="465.0" text="10" />
+      <Label fx:id="qtdPoldar" layoutX="162.0" layoutY="465.0" text="10" />
+      <Label fx:id="qtdPragas" layoutX="246.0" layoutY="465.0" text="10" />
+      <Label fx:id="qtdAdubar" layoutX="317.0" layoutY="465.0" text="10" />
+      <Label layoutX="96.0" layoutY="465.0" text="x" AnchorPane.leftAnchor="90.0" />
+      <Label layoutX="175.0" layoutY="465.0" text="x" AnchorPane.leftAnchor="177.0" AnchorPane.rightAnchor="340.0" AnchorPane.topAnchor="465.0" />
+      <Label layoutX="258.0" layoutY="465.0" text="x" AnchorPane.leftAnchor="260.0" />
+      <Label layoutX="327.0" layoutY="465.0" text="x" AnchorPane.leftAnchor="332.0" />
+   </children>
+</AnchorPane>
