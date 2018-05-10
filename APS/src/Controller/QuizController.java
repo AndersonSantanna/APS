@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.text.Text;
 
@@ -38,10 +39,20 @@ public class QuizController implements Initializable {
 
     @FXML
     private Button buttonEnviar;
-
+    
+    @FXML
+    private Label situacao;
+    
+    String perguntas[] = new String[15];
+    char resposta [] = new char[1];
+    String agua[] = new String[25];
+    
     @FXML
     void enviar(ActionEvent event) {
-
+        if(true){
+            situacao.setText("Acertou, ganhou 1 regador");
+            JogoController.aux++;
+        }
     }
     /**
      * Initializes the controller class.
@@ -49,6 +60,15 @@ public class QuizController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        agua[0] = "O que é agua";
+        perguntas[0] = agua[0];
+        pergunta.setText(perguntas[0]);
+        resposta[0] = 'a';
+        alternativaA.setText("h20");
+        alternativaB.setText("h02");
+        alternativaC.setText("2h0");
+        alternativaD.setText("0h2");
+        
     }    
     
 }

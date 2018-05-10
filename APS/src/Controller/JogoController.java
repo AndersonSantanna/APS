@@ -9,9 +9,6 @@ import Model.Arvore;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,10 +19,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.Border;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -47,7 +40,7 @@ public class JogoController implements Initializable {
 
     @FXML
     private Label qtdAdubar;
-    private short aux;
+    static short aux;
     @FXML
     private ImageView arvore;
     private Arvore arv = new Arvore();
@@ -59,7 +52,10 @@ public class JogoController implements Initializable {
     private ImageView imgAjuda;
     
     @FXML
-    private ProgressBar progresso = new ProgressBar(100);
+    private ImageView nuvem;    
+    
+    @FXML
+    private ProgressBar progresso;
     @FXML
     private ProgressIndicator pi;
     
@@ -95,7 +91,6 @@ public class JogoController implements Initializable {
             aux -= 1;
             qtdPragas.setText("" + aux);
             aumentarNivel();
-
             progresso.setProgress(arv.getXp());
             pi.setProgress(progresso.getProgress());
             verificador();
@@ -122,14 +117,12 @@ public class JogoController implements Initializable {
         if (aux > 0){
             arv.poldar();
             System.out.println("Poldando");
-            
-            
             aux -=1;
             qtdPoldar.setText("" + aux);
             aumentarNivel();
             progresso.setProgress(arv.getXp());
             pi.setProgress(progresso.getProgress());
-           verificador();
+            verificador();
         }
     }
       
@@ -139,13 +132,12 @@ public class JogoController implements Initializable {
         if( aux > 0){
             arv.adubar();
             System.out.println("Adubando");
-            
             aux -= 1;
             qtdAdubar.setText("" + aux);
              aumentarNivel();
             progresso.setProgress(arv.getXp());
             pi.setProgress(progresso.getProgress());
-             verificador();
+            verificador();
            
         }
     }
@@ -156,10 +148,8 @@ public class JogoController implements Initializable {
         if( aux > 0){
             arv.regar();
             System.out.println("Regando");
-            
             aux -= 1;
             qtdRegar.setText("" + aux);
-            
             aumentarNivel();
             progresso.setProgress(arv.getXp());
             pi.setProgress(arv.getXp());
@@ -197,7 +187,6 @@ public class JogoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        aumentarNivel();
     }    
     
 }

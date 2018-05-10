@@ -66,16 +66,15 @@ public class CadastroController implements Initializable {
 
     @FXML
     void Cadastrar(ActionEvent event) {
+        System.out.println("Cadastrando");
         Sexo sexo = boxSexo.getSelectionModel().getSelectedItem();
         Pessoa pessoa = new Pessoa(textNome, textUsuario, textIdade, passawordCadastro, sexo, textNomeArvore);
-        System.out.println(pessoa);
-        ativadorDeButtom(buttonCadastrar);
-
+        System.out.println(pessoa.toString());
     }
 
     @FXML
     void voltar(ActionEvent event) {
-       System.out.println("Botao Voltar Clicado!");
+        System.out.println("Botao Voltar Clicado!");
         ativadorDeButtom(buttonVoltar);
     }
     
