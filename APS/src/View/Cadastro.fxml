@@ -25,7 +25,7 @@
             <Text fill="WHITE" layoutX="29.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Senha" />
             <TextField fx:id="textNome" layoutX="83.0" layoutY="114.0" promptText="Nome" />
             <TextField fx:id="textUsuario" layoutX="83.0" layoutY="157.0" promptText="Usuario" />
-            <PasswordField fx:id="passawordCadastro" layoutX="83.0" layoutY="195.0" promptText="senha" />
+            <PasswordField fx:id="senhaCadastro" layoutX="83.0" layoutY="195.0" promptText="senha" />
             <Text fill="WHITE" layoutX="306.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Idade" />
             <TextField fx:id="textIdade" layoutX="344.0" layoutY="114.0" prefHeight="25.0" prefWidth="64.0" promptText="idade" />
             <Text fill="WHITE" layoutX="310.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sexo" />

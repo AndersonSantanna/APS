@@ -1,14 +1,11 @@
 package Controller;
 
-import Model.Pessoa;
-import Model.Sexo;
+import Model.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,6 +20,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import static DAO.PlayerDao.cadastraPlayer;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.*;
+import javafx.scene.layout.Region;
 
 /**
  * FXML Controller class
@@ -39,7 +40,7 @@ public class CadastroController implements Initializable {
     private TextField textUsuario;
 
     @FXML
-    private PasswordField passawordCadastro;
+    private PasswordField senhaCadastro;
     
     @FXML
     private TextField textIdade;
@@ -60,22 +61,34 @@ public class CadastroController implements Initializable {
     @FXML
     private Label aviso;
 
-    private String diretorio = "/view/Login.fxml", title = "Meio Ambiente em Jogo";
     
     //private FXMLDocumentController teste;
 
     @FXML
     void Cadastrar(ActionEvent event) {
-        System.out.println("Cadastrando");
-        Sexo sexo = boxSexo.getSelectionModel().getSelectedItem();
-        Pessoa pessoa = new Pessoa(textNome, textUsuario, textIdade, passawordCadastro, sexo, textNomeArvore);
-        System.out.println(pessoa.toString());
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        try{
+            Sexo sexo = boxSexo.getSelectionModel().getSelectedItem();
+            boolean isCadastrado = cadastraPlayer(new Pessoa(textNome, textUsuario, textIdade, senhaCadastro, sexo.getSexo()),new Arvore(textNomeArvore));
+            if(isCadastrado){
+                ativadorDeButton(buttonCadastrar,true);
+            }else{
+                ativadorDeButton(buttonCadastrar,false);
+            }
+        }
+        catch(NumberFormatException | NullPointerException ex){
+            alert.setHeaderText("Informação");
+            alert.setContentText("Por favor,preencha todos os campos e selecione o sexo antes de continuar.");
+            alert.showAndWait();
+            ativadorDeButton(buttonCadastrar,false);
+        }  
     }
 
     @FXML
     void voltar(ActionEvent event) {
         System.out.println("Botao Voltar Clicado!");
-        ativadorDeButtom(buttonVoltar);
+        ativadorDeButton(buttonVoltar,true);
     }
     
     private void carregarSexo(){
@@ -97,10 +110,13 @@ public class CadastroController implements Initializable {
         carregarSexo();
         
     }    
-    public void ativadorDeButtom(Button buttom){
-        Stage stage = new Stage();  
+    public void ativadorDeButton(Button button, boolean isCadastrado){
+        Stage stage = new Stage();
         try{
             Parent root = FXMLLoader.load(getClass().getResource("/View/Login.fxml"));
+            if(!isCadastrado){
+                root = FXMLLoader.load(getClass().getResource("/View/Cadastro.fxml"));
+            }
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Meio Ambiente em Jogo");
@@ -108,7 +124,7 @@ public class CadastroController implements Initializable {
         }catch(IOException e){
             e.printStackTrace();
         }finally{
-            stage = (Stage) buttom.getScene().getWindow();
+            stage = (Stage) button.getScene().getWindow();
             stage.close();
         }
     }

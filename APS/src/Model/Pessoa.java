@@ -10,10 +10,10 @@ import javafx.scene.control.TextField;
  * @author anderson
  */
 public class Pessoa {
-    public String nome, sexo,usuario;
+    private String nome, sexo,usuario;
     protected short idade;
     private String senha;
-    public Arvore arvore = new Arvore();
+    public Arvore arvore;
 
     public Pessoa(String nome, String usuario, short idade, String senha) {
         this.nome = nome;
@@ -28,13 +28,43 @@ public class Pessoa {
         this.sexo = sexo;
     }
 
-    public Pessoa(TextField Nome, TextField Usuario, TextField Idade, PasswordField passaword, Sexo sexo, TextField arvore ) {
-        this.nome = Nome.getText();
-        this.usuario = Usuario.getText();
-        this.idade = Short.parseShort(Idade.getText());
-        this.senha = passaword.getText();
-        this.sexo = sexo.getSexo();
-        this.arvore.setNome(arvore.getText());
+    public Pessoa(String usuario,String senha){
+        this.usuario = usuario;
+        this.senha = senha;
+    }
+    
+    public Pessoa(TextField usuario,PasswordField senha) {
+        this.usuario = usuario.getText();
+        if(this.usuario.isEmpty()){
+            throw new NullPointerException();
+        }
+        this.senha = senha.getText();
+                if(this.senha.isEmpty()){
+            throw new NullPointerException();
+        }
+    }
+    
+    public Pessoa(TextField nome, TextField usuario, TextField idade,PasswordField senha,String sexo) {
+        this.nome = nome.getText();
+        if(this.nome.isEmpty()){
+            throw new NullPointerException();
+        }
+        this.usuario = usuario.getText();
+        if(this.usuario.isEmpty()){
+            throw new NullPointerException();
+        }
+        this.idade = Short.parseShort(idade.getText());
+        if(this.idade == 0){
+            throw new NullPointerException();
+        }
+        this.senha = senha.getText();
+        if(this.senha.isEmpty()){
+            throw new NullPointerException();
+        }
+        this.sexo = sexo;
+        if(this.senha.isEmpty()){
+            throw new NullPointerException();
+        }
     }
     //Metodo toString
 
