@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.Arvore;
+import Model.Pessoa;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,7 +44,7 @@ public class JogoController implements Initializable {
     static short aux;
     @FXML
     private ImageView arvore;
-    private Arvore arv = new Arvore();
+    private Arvore arv;
     
     @FXML
     private Text labelNivel;
@@ -58,6 +59,8 @@ public class JogoController implements Initializable {
     private ProgressBar progresso;
     @FXML
     private ProgressIndicator pi;
+    
+    private Pessoa player;
     
     
     @FXML
@@ -178,15 +181,25 @@ public class JogoController implements Initializable {
             arv.setNivel((short)(arv.getNivel() + 1));
             arv.setXp((float)(arv.getXp() - 1));
             aumentarArvore();
-            labelNivel.setText(""+ arv.nivel);
+            labelNivel.setText(""+ arv.getNivel());
         }
     }
+    
+    public void setPlayer(Pessoa pessoa){
+        this.player = new Pessoa(pessoa.getUsuario(),pessoa.getSenha());
+    }
+    
+    public Pessoa getPlayer(){
+        return this.player;
+    }
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
     }    
     
 }

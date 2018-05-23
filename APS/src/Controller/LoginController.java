@@ -2,6 +2,8 @@ package Controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +17,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import static DAO.PlayerDao.loginPlayer;
+import Model.Pessoa;
+import javafx.scene.control.Alert;
+import javafx.scene.layout.Region;
 
 /**
  *
@@ -43,30 +49,33 @@ public class LoginController implements Initializable {
      
     @FXML
     private Label aviso;
+    
+    //SQL
+    PreparedStatement pst;
+    ResultSet rs = null;
+    
 
     @FXML
     private void entrarButtonAction(ActionEvent event) {
-        //String string = passaword.getText().toString();
-        System.out.println("Botão clicado" );
-        System.out.println("Usuuario: " + usuario.getText());
-        System.out.println("senha: " + senha.getText());
-        Stage stage = new Stage();
-       // if(usuario.getText().equals("adm") && senha.getText().equals("123")){
-            try{
-                Parent root = FXMLLoader.load(getClass().getResource("/View/Jogo.fxml"));
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.setTitle("Jogo em ação");
-                stage.show();
-            }catch(IOException e){
-                e.printStackTrace();
-            }finally{
-                stage = (Stage) buttonCadastrar.getScene().getWindow();
-                stage.close();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        Pessoa pessoa = new Pessoa(usuario,senha);
+        try{
+            boolean isLoginSucessful = loginPlayer(pessoa);
+            if(isLoginSucessful){
+                verificaLogin(true,pessoa);
+            }else{
+                    alert.setHeaderText("Informação");
+                    alert.setContentText("Nome de usuário ou senha incorretos. Por favor, tente novamente.");
+                    alert.showAndWait();
+                    verificaLogin(false,null);
             }
-        /*}else{
-            aviso.visibleProperty().setValue(Boolean.TRUE);
-        }*/
+        }catch(NumberFormatException| NullPointerException e){
+            alert.setHeaderText("Informação");
+            alert.setContentText("Por favor,preencha todos os campos corretamente antes de continuar");
+            alert.showAndWait();
+            verificaLogin(false,null);
+        }
     }
     
     @FXML
@@ -79,6 +88,29 @@ public class LoginController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Cadastro");
+            stage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }finally{
+            stage = (Stage) buttonCadastrar.getScene().getWindow();
+            stage.close();
+        }
+    }
+    
+    public void verificaLogin( boolean loginSucess,Pessoa pessoa){
+        Stage stage = new Stage();
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Jogo.fxml"));
+            
+            if(!loginSucess){
+                loader = new FXMLLoader(getClass().getResource("/View/Login.fxml"));
+            }
+            Parent root = (Parent)loader.load();
+            JogoController jogoCtrlr = loader.getController();
+            jogoCtrlr.setPlayer(pessoa);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Meio Ambiente em Jogo");
             stage.show();
         }catch(IOException e){
             e.printStackTrace();

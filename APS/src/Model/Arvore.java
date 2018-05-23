@@ -5,14 +5,32 @@
  */
 package Model;
 
+import javafx.scene.control.TextField;
+
 /**
  *
  * @author ander
  */
 public class Arvore {
-    public short nivel = 1;
-    public float xp = 0;
-    public String nome;
+    private short nivel = 1;
+    private float xp = 0;
+    private String nome;
+    private int idArvore;
+    
+    public Arvore (TextField nomeArvore){
+        this.nome = nomeArvore.getText();
+        if(this.nome.isEmpty()){
+            throw new NullPointerException();
+        }
+    }
+
+    public int getIdArvore() {
+        return idArvore;
+    }
+
+    public void setIdArvore(int idArvore) {
+        this.idArvore = idArvore;
+    }
     
     public float regar(){
         return xp += 0.05;
