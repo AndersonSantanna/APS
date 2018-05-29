@@ -11,6 +11,22 @@ package Model;
  * @author gustavo
  */
 public class PessoaArvore {
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public Arvore getArvore() {
+        return arvore;
+    }
+
+    public void setArvore(Arvore arvore) {
+        this.arvore = arvore;
+    }
     
     private Pessoa pessoa;
     private Arvore arvore;
@@ -20,6 +36,5 @@ public class PessoaArvore {
         this.pessoa = pessoa;
         this.arvore = arvore;
     }
-    
     
 }

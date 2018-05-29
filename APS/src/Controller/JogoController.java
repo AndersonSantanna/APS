@@ -5,8 +5,11 @@
  */
 package Controller;
 
+import DAO.JogoDao;
+import static DAO.JogoDao.atualizaFrontEnd;
 import Model.Arvore;
 import Model.Pessoa;
+import Model.PessoaArvore;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,6 +25,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import static DAO.JogoDao.fetchPlayer;
+import static DAO.JogoDao.updateNivel;
+import static DAO.JogoDao.updateXp;
+import java.util.Optional;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.layout.Region;
 
 /**
  * FXML Controller class
@@ -34,10 +46,10 @@ public class JogoController implements Initializable {
     private Label qtdRegar;
 
     @FXML
-    private Label qtdPoldar;
+    private Label qtdPodar;
 
     @FXML
-    private Label qtdPragas;
+    private Label qtdDedetizar;
 
     @FXML
     private Label qtdAdubar;
@@ -53,14 +65,19 @@ public class JogoController implements Initializable {
     private ImageView imgAjuda;
     
     @FXML
-    private ImageView nuvem;    
+    private ImageView nuvem;
+
+    @FXML
+    private Label nomeArvoreLabel;
     
     @FXML
     private ProgressBar progresso;
     @FXML
     private ProgressIndicator pi;
     
-    private Pessoa player;
+    private PessoaArvore player;
+    
+    
     
     
     @FXML
@@ -86,15 +103,32 @@ public class JogoController implements Initializable {
     }
     
     @FXML
-    void detetizar(MouseEvent event) {
-        aux = Short.parseShort(qtdPragas.getText());
+    void sair(MouseEvent event) throws InterruptedException {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar saída");
+        alert.setHeaderText("Confirmação de saída do jogo");
+        alert.setContentText("Deseja realmente sair do jogo?");
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            Platform.exit();
+        } else {
+            //Nada, retornar ao fluxo normal do jogo.
+        }
+        
+    }
+    
+    @FXML
+    void dedetizar(MouseEvent event) {
+        aux = Short.parseShort(qtdDedetizar.getText());
         if(aux > 0 ){
             arv.eliminarPragas();
-            System.out.println("Detetizando");
+            System.out.println(arv.getIdArvore());
+            System.out.println("XP atual:" + arv.getXp());
             aux -= 1;
-            qtdPragas.setText("" + aux);
-            aumentarNivel();
-            progresso.setProgress(arv.getXp());
+            qtdDedetizar.setText("" + aux);
+            verificaNivel();
+            progresso.setProgress(getProgresso());
             pi.setProgress(progresso.getProgress());
             verificador();
         }
@@ -115,15 +149,16 @@ public class JogoController implements Initializable {
     }
 
     @FXML
-    void poldar(MouseEvent event) {
-        aux = Short.parseShort(qtdPoldar.getText());
+    void podar(MouseEvent event) {
+        aux = Short.parseShort(qtdPodar.getText());
         if (aux > 0){
-            arv.poldar();
-            System.out.println("Poldando");
+            arv.podar();
+            updateXp(arv.getIdArvore(),arv.getXp());
+            System.out.println("XP atual:" + arv.getXp());
             aux -=1;
-            qtdPoldar.setText("" + aux);
-            aumentarNivel();
-            progresso.setProgress(arv.getXp());
+            qtdPodar.setText("" + aux);
+            verificaNivel();
+            progresso.setProgress(getProgresso());
             pi.setProgress(progresso.getProgress());
             verificador();
         }
@@ -134,11 +169,12 @@ public class JogoController implements Initializable {
         aux = Short.parseShort(qtdAdubar.getText());
         if( aux > 0){
             arv.adubar();
-            System.out.println("Adubando");
+            updateXp(arv.getIdArvore(),arv.getXp());
+            System.out.println("XP atual:" + arv.getXp());
             aux -= 1;
             qtdAdubar.setText("" + aux);
-             aumentarNivel();
-            progresso.setProgress(arv.getXp());
+             verificaNivel();
+            progresso.setProgress(getProgresso());
             pi.setProgress(progresso.getProgress());
             verificador();
            
@@ -150,20 +186,21 @@ public class JogoController implements Initializable {
         aux = Short.parseShort(qtdRegar.getText());
         if( aux > 0){
             arv.regar();
-            System.out.println("Regando");
+            updateXp(arv.getIdArvore(),arv.getXp());
+            System.out.println("XP atual:" + arv.getXp());
             aux -= 1;
             qtdRegar.setText("" + aux);
-            aumentarNivel();
-            progresso.setProgress(arv.getXp());
-            pi.setProgress(arv.getXp());
+            verificaNivel();
+            progresso.setProgress(getProgresso());
+            pi.setProgress(progresso.getProgress());
             verificador();
         }
     }
     
    public void verificador(){
-       if (arv.getXp() == 1){
-            progresso.setProgress(0);
-            pi.setProgress(0);
+       if (arv.getXp() == getXpProxNivel()){
+            progresso.setProgress(getProgresso());
+            pi.setProgress(progresso.getProgress());
         }
    }
     
@@ -176,21 +213,42 @@ public class JogoController implements Initializable {
         }
     }
     
-    public void aumentarNivel(){
-        if(arv.getXp() >= 1){
+    public void verificaNivel(){
+        if(arv.getXp() >= getXpProxNivel()){
+            arv.setXp(arv.getXp()-getXpProxNivel());
             arv.setNivel((short)(arv.getNivel() + 1));
-            arv.setXp((float)(arv.getXp() - 1));
             aumentarArvore();
+            updateNivel(arv.getIdArvore(),arv.getNivel());
+            arv = atualizaFrontEnd(arv.getIdArvore());
+            qtdAdubar.setText(String.valueOf(arv.getQtdAdubar()));
+            qtdRegar.setText(String.valueOf(arv.getQtdRegar()));
+            qtdDedetizar.setText(String.valueOf(arv.getQtdDedetizar()));
+            qtdPodar.setText(String.valueOf(arv.getQtdPodar()));
+            progresso.setProgress(getProgresso());
             labelNivel.setText(""+ arv.getNivel());
         }
     }
     
     public void setPlayer(Pessoa pessoa){
-        this.player = new Pessoa(pessoa.getUsuario(),pessoa.getSenha());
+        this.player = fetchPlayer(pessoa);
+        labelNivel.setText(Short.toString(player.getArvore().getNivel()));
+        arv = new Arvore(player.getArvore().getNome(),player.getArvore().getNivel(),player.getArvore().getXp(),player.getArvore().getIdArvore(),player.getArvore().getQtdAdubar(),player.getArvore().getQtdRegar(),player.getArvore().getQtdDedetizar(),player.getArvore().getQtdPodar());
+        nomeArvoreLabel.setText(arv.getNome());
+        qtdAdubar.setText(String.valueOf(arv.getQtdAdubar()));
+        qtdRegar.setText(String.valueOf(arv.getQtdRegar()));
+        qtdDedetizar.setText(String.valueOf(arv.getQtdDedetizar()));
+        qtdPodar.setText(String.valueOf(arv.getQtdPodar()));
+        progresso.setProgress(getProgresso());
+        pi.setProgress(progresso.getProgress());
     }
     
-    public Pessoa getPlayer(){
-        return this.player;
+    public double getXpProxNivel(){
+        return arv.getNivel()* 0.75;
+    }
+    
+    public double getProgresso(){
+        double x = (arv.getXp()*100) / getXpProxNivel();
+        return x/100;
     }
     
     /**
@@ -198,7 +256,6 @@ public class JogoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         
     }    
     

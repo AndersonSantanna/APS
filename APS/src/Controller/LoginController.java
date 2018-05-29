@@ -99,15 +99,17 @@ public class LoginController implements Initializable {
     
     public void verificaLogin( boolean loginSucess,Pessoa pessoa){
         Stage stage = new Stage();
+        pessoa.toString();
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Jogo.fxml"));
-            
-            if(!loginSucess){
-                loader = new FXMLLoader(getClass().getResource("/View/Login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Login.fxml"));
+            Parent root = null;
+            if(loginSucess){
+                loader = new FXMLLoader(getClass().getResource("/View/Jogo.fxml"));
+                root = (Parent)loader.load();
+                JogoController jogoCtrlr = loader.getController();
+                jogoCtrlr.setPlayer(pessoa);
             }
-            Parent root = (Parent)loader.load();
-            JogoController jogoCtrlr = loader.getController();
-            jogoCtrlr.setPlayer(pessoa);
+
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Meio Ambiente em Jogo");

@@ -12,11 +12,11 @@ import java.sql.*;
  * @author gustavo
  */
 public class ConnectionModule {
-        public static Connection conexao(){
+        public static Connection conexao() throws SQLException{
         Connection conexao = null;
         String driver = "com.mysql.jdbc.Driver";
 
-        String url = "jdbc:mysql://localhost:3306/Game";
+        String url = "jdbc:mysql://localhost:3306/Game?autoReconnect=true&useSSL=false";
         String user = "root";
         String password = "root";
 
@@ -25,9 +25,13 @@ public class ConnectionModule {
             conexao = DriverManager.getConnection(url,user,password);
             return conexao;
         }
+        catch (SQLException e){
+            throw new SQLException();
+        }
         catch (Exception e){
             System.out.println(e);
             return null;
         }
+
     }
 }

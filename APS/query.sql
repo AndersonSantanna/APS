@@ -17,6 +17,10 @@ create table Arvores(
     expArvore int not null,
     nivelArvore int not null,
     IdJogador int not null,
+    QtdAdubar int not null,
+    QtdRegar int not null,
+    QtdDedetizar int not null,
+    QtdPodar int not null,
     primary key (IdArvore),
     foreign key (IdJogador) references Players(IdJogador)
 );

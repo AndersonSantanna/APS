@@ -1,4 +1,3 @@
-
 package Model;
 
 import java.util.Objects;
@@ -12,8 +11,8 @@ import javafx.scene.control.TextField;
 public class Pessoa {
     private String nome, sexo,usuario;
     protected short idade;
+    private int id;
     private String senha;
-    public Arvore arvore;
 
     public Pessoa(String nome, String usuario, short idade, String senha) {
         this.nome = nome;
@@ -22,7 +21,19 @@ public class Pessoa {
         this.senha = senha;
     }
     
+    public Pessoa(String nome, String usuario, int id) {
+        this.nome = nome;
+        this.usuario = usuario;
+        this.id = id;
+        this.senha = senha;
+    }
     
+    
+    public Pessoa(String nome,String usuario,short id){
+        this.usuario = usuario;
+        this.nome = nome;
+        this.id = id;
+    }
     
     public Pessoa(String sexo) {
         this.sexo = sexo;
@@ -70,7 +81,7 @@ public class Pessoa {
 
     @Override
     public String toString() {
-        return "Pessoa{" + "nome=" + nome + ", sexo=" + sexo + ", usuario=" + usuario + ", idade=" + idade + ", senha=" + senha + ", Arvore="+ arvore.getNome() + '}';
+        return "Pessoa{" + "nome=" + nome + ", sexo=" + sexo + ", usuario=" + usuario + ", idade=" + idade + ", senha=" + senha ;
     }
     
     
