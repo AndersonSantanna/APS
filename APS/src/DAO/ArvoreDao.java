@@ -16,7 +16,6 @@ import javafx.scene.layout.Region;
  */
 public class ArvoreDao {
     
-    static Connection conexao = ConnectionModule.conexao();
     static PreparedStatement pst;
     static ResultSet rs;
     
@@ -24,15 +23,16 @@ public class ArvoreDao {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         try{
+            Connection conexao = ConnectionModule.conexao();
             String sql = "SELECT * FROM Arvores WHERE NomeArvore = ?";
             pst = conexao.prepareStatement(sql);
             pst.setString(1,arvore.getNome());
             rs = pst.executeQuery();
             if(!rs.next()){
-                sql = "INSERT INTO Arvores(expArvore,nivelArvore,IdJogador,NomeArvore) VALUES (?,?,?,?)";
+                sql = "INSERT INTO Arvores(expArvore,nivelArvore,IdJogador,NomeArvore,QtdAdubar,QtdRegar,QtdDedetizar,QtdPodar) VALUES (?,?,?,?,10,10,10,10)";
                 pst = conexao.prepareStatement(sql);
                 pst.setInt(1,0);
-                pst.setInt(2,0);
+                pst.setInt(2,1);
                 pst.setInt(3,id);
                 pst.setString(4,arvore.getNome());
                 int result = pst.executeUpdate();

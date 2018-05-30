@@ -15,7 +15,6 @@ import javafx.scene.layout.Region;
  */
 public class PlayerDao {
     
-    static Connection conexao = ConnectionModule.conexao();
     static PreparedStatement pst;
     static ResultSet rs;
     
@@ -23,6 +22,7 @@ public class PlayerDao {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         try{
+            Connection conexao = ConnectionModule.conexao();
             String sql = "SELECT * FROM Players WHERE Usuario = ?";
             pst = conexao.prepareStatement(sql);
             pst.setString(1,pessoa.getUsuario());
@@ -48,15 +48,16 @@ public class PlayerDao {
                             alert.setContentText("Usuário cadastrado com sucesso! Clique em OK para ser redirecionado para a área de login.");
                             alert.showAndWait();
                             return true;
-                        }else{
-                            alert.setHeaderText("Informação");
-                            alert.setContentText("Nome de usuário já cadastrado no banco de dados. Por favor, tente novamente com outro nome.");
-                            alert.showAndWait();
+                        }else{ 
+                            System.out.println("Erro na Query \"SELECT MAX \"");
                             return false;
                         }
                     }
                 }
             }else{
+                alert.setHeaderText("Informação");
+                alert.setContentText("Nome de usuário já cadastrado no banco de dados. Por favor, tente novamente com outro nome.");
+                alert.showAndWait();
                 return false;
             }
             //return rs;
@@ -74,16 +75,17 @@ public class PlayerDao {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         try{
-                String sql = "SELECT * from Players WHERE Usuario = ? AND Senha = ?";
-                pst = conexao.prepareStatement(sql);
-                pst.setString(1,pessoa.getUsuario());
-                pst.setString(2, pessoa.getSenha());
-                rs = pst.executeQuery();
-                if(rs.next()){
-                    return true;
-                }else{
-                    return false;
-                }
+            Connection conexao = ConnectionModule.conexao();
+            String sql = "SELECT * from Players WHERE Usuario = ? AND Senha = ?";
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1,pessoa.getUsuario());
+            pst.setString(2, pessoa.getSenha());
+            rs = pst.executeQuery();
+            if(rs.next()){
+                return true;
+            }else{
+                return false;
+            }
         }catch (SQLException e){
             e.printStackTrace();
             alert.setHeaderText("Informação");
