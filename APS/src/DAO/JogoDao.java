@@ -37,6 +37,7 @@ public class JogoDao {
                 rs = pst.executeQuery();
                 if(rs.next()){
                     PessoaArvore player = new PessoaArvore(new Pessoa(rs.getString("NomeJogador"),rs.getString("Usuario"),rs.getInt("IdJogador")),new Arvore(rs.getString("NomeArvore"),rs.getShort("nivelArvore"),rs.getDouble("expArvore"),rs.getInt("IdArvore"),rs.getInt("QtdAdubar"),rs.getInt("QtdRegar"),rs.getInt("QtdDedetizar"),rs.getInt("QtdPodar")));
+                    conexao.close();
                     return player;
                 }
             }
@@ -59,7 +60,7 @@ public class JogoDao {
             pst.setDouble(1, xp);
             pst.setInt(2, id);
             int r = pst.executeUpdate();
-            System.out.println("XP atualizado");
+            conexao.close();
         }catch(SQLException ex){
             ex.printStackTrace();
             alert.setHeaderText("Informação");
@@ -73,13 +74,13 @@ public class JogoDao {
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         try{
             Connection conexao = ConnectionModule.conexao();
-            String sql = "UPDATE Arvores SET NivelArvore=? WHERE IdArvore=?";
+            String sql = "UPDATE Arvores SET NivelArvore= ?, ExpArvore = 0 WHERE IdArvore=?";
             pst = conexao.prepareStatement(sql);
             pst.setInt(1, nivel);
             pst.setInt(2, id);
             pst.executeUpdate();
-            System.out.println("Nível atualizado.");
             addRecursos(nivel,id, (short)ThreadLocalRandom.current().nextInt(0,4));
+            conexao.close();
         }catch(SQLException ex){
             ex.printStackTrace();
             alert.setHeaderText("Informação");
@@ -93,13 +94,12 @@ public class JogoDao {
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         try{
             Connection conexao = ConnectionModule.conexao();
-            String sql = "UPDATE Arvores SET ? = ? WHERE IdArvore = ?";
+            String sql = "UPDATE Arvores SET "+ tipoRecurso[tipoRec]+ " = " + tipoRecurso[tipoRec] + " + ? WHERE IdArvore = ?";
             pst= conexao.prepareStatement(sql);
-            pst.setString(1,tipoRecurso[tipoRec]);
-            pst.setInt(2, nivel * 4);
-            pst.setInt(3, id);
+            pst.setInt(1, nivel * 4);
+            pst.setInt(2, id);
             pst.executeUpdate();
-            System.out.println("Você subiu de nível e ganhou recursos!");
+            conexao.close();
         }catch(SQLException ex){
             ex.printStackTrace();
             alert.setHeaderText("Informação");
@@ -112,19 +112,58 @@ public class JogoDao {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         try{
-            Connection conexao = ConnectionModule.conexao();
-            String sql = "SELECT * FROM Arvores WHERE IdArvore = ?";
-            pst= conexao.prepareStatement(sql);
-            pst.setInt(1,id);
-            pst.executeQuery();
-            rs.next();
-            return new Arvore(rs.getString("NomeArvore"),rs.getShort("nivelArvore"),rs.getDouble("expArvore"),rs.getInt("IdArvore"),rs.getInt("QtdAdubar"),rs.getInt("QtdRegar"),rs.getInt("QtdDedetizar"),rs.getInt("QtdPodar"));            
+            Arvore arv;
+            try (Connection conexao = ConnectionModule.conexao()) {
+                String sql = "SELECT * FROM Arvores WHERE IdArvore = ?";
+                pst= conexao.prepareStatement(sql);
+                pst.setInt(1,id);
+                rs = pst.executeQuery();
+                rs.next();
+                arv = new Arvore(rs.getString("NomeArvore"),rs.getShort("NivelArvore"),rs.getDouble("ExpArvore"),rs.getInt("IdArvore"),rs.getInt("QtdAdubar"),rs.getInt("QtdRegar"),rs.getInt("QtdDedetizar"),rs.getInt("QtdPodar"));
+                conexao.close();
+            }
+            return arv;
         }catch(SQLException ex){
             ex.printStackTrace();
             alert.setHeaderText("Informação");
             alert.setContentText("Erro no banco de dados. Por favor, tente novamente mais tarde.");
             alert.showAndWait();
             return null;
+        }
+    }
+    
+    public static void updateRecursos(String tipoRec,int id){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        String rec = null;
+        try{
+            Connection conexao = ConnectionModule.conexao();
+            switch(tipoRec){
+                case "adubar":
+                    rec = tipoRecurso[0];
+                    break;
+                case "regar":
+                    rec = tipoRecurso[1];
+                    break;
+                case "dedetizar":
+                    rec = tipoRecurso[2];
+                    break;
+                case "podar":
+                    rec = tipoRecurso[3];
+                    break;
+                default:
+                    System.out.println("algo errado nas strings!");
+            }
+            String sql = "UPDATE Arvores SET " + rec + " = " +rec+ " - 1 WHERE IdArvore = ?";
+            pst= conexao.prepareStatement(sql);
+            pst.setInt(1,id);
+            pst.executeUpdate();
+            conexao.close();
+        }catch(SQLException ex){
+            ex.printStackTrace();
+            alert.setHeaderText("Informação");
+            alert.setContentText("Erro no banco de dados. Por favor, tente novamente mais tarde.");
+            alert.showAndWait();
         }
     }
     

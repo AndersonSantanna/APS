@@ -59,18 +59,16 @@ public class LoginController implements Initializable {
     private void entrarButtonAction(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        Pessoa pessoa = new Pessoa(usuario,senha);
         try{
+            Pessoa pessoa = new Pessoa(usuario,senha);
             boolean isLoginSucessful = loginPlayer(pessoa);
             if(isLoginSucessful){
                 verificaLogin(true,pessoa);
             }else{
-                    alert.setHeaderText("Informação");
-                    alert.setContentText("Nome de usuário ou senha incorretos. Por favor, tente novamente.");
-                    alert.showAndWait();
-                    verificaLogin(false,null);
+                verificaLogin(false,null);
             }
         }catch(NumberFormatException| NullPointerException e){
+            e.printStackTrace();
             alert.setHeaderText("Informação");
             alert.setContentText("Por favor,preencha todos os campos corretamente antes de continuar");
             alert.showAndWait();
@@ -99,17 +97,15 @@ public class LoginController implements Initializable {
     
     public void verificaLogin( boolean loginSucess,Pessoa pessoa){
         Stage stage = new Stage();
-        pessoa.toString();
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/Login.fxml"));
-            Parent root = null;
-            if(loginSucess){
+            Parent root = (Parent)loader.load();
+            if(loginSucess == true){
                 loader = new FXMLLoader(getClass().getResource("/View/Jogo.fxml"));
                 root = (Parent)loader.load();
                 JogoController jogoCtrlr = loader.getController();
                 jogoCtrlr.setPlayer(pessoa);
             }
-
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Meio Ambiente em Jogo");

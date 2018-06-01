@@ -37,9 +37,11 @@ public class ArvoreDao {
                 pst.setString(4,arvore.getNome());
                 int result = pst.executeUpdate();
                 if(result > 0){
+                    conexao.close();
                     return true;
                 }
             }else{
+                conexao.close();
                 alert.setHeaderText("Informação");
                 alert.setContentText("Nome da árvore já existe no banco de dados. Por favor, tente novamente com outro nome.");
                 alert.showAndWait();
