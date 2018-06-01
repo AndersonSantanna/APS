@@ -47,9 +47,11 @@ public class PlayerDao {
                             alert.setHeaderText("Informação");
                             alert.setContentText("Usuário cadastrado com sucesso! Clique em OK para ser redirecionado para a área de login.");
                             alert.showAndWait();
+                            conexao.close();
                             return true;
                         }else{ 
                             System.out.println("Erro na Query \"SELECT MAX \"");
+                            conexao.close();
                             return false;
                         }
                     }
@@ -58,6 +60,7 @@ public class PlayerDao {
                 alert.setHeaderText("Informação");
                 alert.setContentText("Nome de usuário já cadastrado no banco de dados. Por favor, tente novamente com outro nome.");
                 alert.showAndWait();
+                conexao.close();
                 return false;
             }
             //return rs;
@@ -82,8 +85,13 @@ public class PlayerDao {
             pst.setString(2, pessoa.getSenha());
             rs = pst.executeQuery();
             if(rs.next()){
+                conexao.close();
                 return true;
             }else{
+                alert.setHeaderText("Informação");
+                alert.setContentText("Nome de usuário ou senha incorretos. Por favor, tente novamente.");
+                alert.showAndWait();
+                conexao.close();
                 return false;
             }
         }catch (SQLException e){
@@ -91,8 +99,8 @@ public class PlayerDao {
             alert.setHeaderText("Informação");
             alert.setContentText("Erro no banco de dados. Por favor, tente novamente mais tarde.");
             alert.showAndWait();
+            return false;
         }
-        return false;
     }
     
 }

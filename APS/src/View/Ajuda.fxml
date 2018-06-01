@@ -4,25 +4,24 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="Controller.AjudaController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AjudaController">
    <children>
       <Text layoutX="289.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajuda">
          <font>
             <Font size="25.0" />
          </font>
       </Text>
-      <Text layoutX="25.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="O objetivo principal do jogo é cuidar da arvore como metodo de concientização das ">
+      <Text layoutX="25.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="O objetivo principal do jogo é cuidar da arvore como metodo de conscientização das ">
          <font>
             <Font size="15.0" />
          </font>
       </Text>
-      <Text layoutX="20.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="pessoas ao meio ambiente. Para Cuidar da arvore regue, polde, evite que incetos " AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="85.8134765625">
+      <Text layoutX="20.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="pessoas em relação ao meio ambiente. Para cuidar da arvore regue, pode, evite que insetos " AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="85.8134765625">
          <font>
             <Font size="15.0" />
          </font>
       </Text>
-      <Text layoutX="25.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="abodreça sua raiz e que cupim coma sua madeira, e adube para fortalecer seus">
+      <Text layoutX="25.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="apodreçam sua raiz e que cupins comam sua madeira, e adube para fortalecer seus">
          <font>
             <Font size="15.0" />
          </font>
@@ -37,7 +36,7 @@
             <Font size="15.0" />
          </font>
       </Text>
-      <Text layoutX="25.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="crescerá. Responda o quiz para ganhar xp." AnchorPane.topAnchor="164.8134765625">
+      <Text layoutX="25.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="crescerá. Responda ao quiz para ganhar mais recursos." AnchorPane.topAnchor="164.8134765625">
          <font>
             <Font size="15.0" />
          </font>
