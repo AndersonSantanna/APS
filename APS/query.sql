@@ -1,85 +1,124 @@
-create database Game;
-use Game;
+-- MySQL dump 10.13  Distrib 5.7.21, for Linux (x86_64)
+--
+-- Host: localhost    Database: Game
+-- ------------------------------------------------------
+-- Server version	5.7.21-0ubuntu0.16.04.1
 
-create table Players(
-	IdJogador int not null auto_increment,
-    NomeJogador varchar(350) not null,
-    Usuario varchar(45) not null,
-    Senha varchar(500) not null,
-    Idade int(8) not null,
-    Sexo char(1)not null,
-    PRIMARY KEY (IdJogador)
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-create table Arvores(
-	IdArvore int not null auto_increment,
-    NomeArvore varchar(45) not null,
-    expArvore int not null,
-    nivelArvore int not null,
-    IdJogador int not null,
-    QtdAdubar int not null,
-    QtdRegar int not null,
-    QtdDedetizar int not null,
-    QtdPodar int not null,
-    primary key (IdArvore),
-    foreign key (IdJogador) references Players(IdJogador)
-);
+DROP DATABASE IF EXISTS `Game`;
+CREATE DATABASE `Game`;
+USE `Game`;
 
-CREATE EVENT reset
-    ON SCHEDULE
-      EVERY 1 HOUR
-        DO
-update Arvores set QtdAdubar = QtdAdubar + 10,
-QtdDedetizar = QtdDedetizar +10, QtdPodar = QtdPodar + 10, QtdRegar = QtdRegar +10;
+--
+-- Table structure for table `Arvores`
+--
 
-alter table Game.Players modify column Sexo varchar(15) not null;
-alter table Game.Arvores add column NomeArvore varchar(45) not null;
+DROP TABLE IF EXISTS `Arvores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Arvores` (
+  `IdArvore` int(11) NOT NULL AUTO_INCREMENT,
+  `ExpArvore` double(4,2) NOT NULL,
+  `NivelArvore` int(11) NOT NULL,
+  `IdJogador` int(11) NOT NULL,
+  `NomeArvore` varchar(45) NOT NULL,
+  `QtdPodar` int(11) NOT NULL,
+  `QtdRegar` int(11) NOT NULL,
+  `QtdDedetizar` int(11) NOT NULL,
+  `QtdAdubar` int(11) NOT NULL,
+  PRIMARY KEY (`IdArvore`),
+  KEY `IdJogador` (`IdJogador`),
+  CONSTRAINT `Arvores_ibfk_1` FOREIGN KEY (`IdJogador`) REFERENCES `Players` (`IdJogador`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-select * from Game.Players;
-select * from Game.Arvores;
-select * from Game.Questoes;
-select * from Game.Respostas;
+--
+-- Table structure for table `Players`
+--
 
-create table Questoes(
-	IdQuestao int not null auto_increment,
-	questao varchar(1000),
-    IdRespostaCorreta int not null,
-    primary key(IdQuestao)
-);
+DROP TABLE IF EXISTS `Players`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Players` (
+  `IdJogador` int(11) NOT NULL AUTO_INCREMENT,
+  `NomeJogador` varchar(350) NOT NULL,
+  `Usuario` varchar(45) NOT NULL,
+  `Senha` varchar(500) NOT NULL,
+  `Idade` int(8) NOT NULL,
+  `Sexo` varchar(15) NOT NULL,
+  PRIMARY KEY (`IdJogador`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-create table Respostas(
-	IdResposta int not null auto_increment,
-    IdQuestao int not null,
-    resposta varchar(500),
-    primary key (IdResposta),
-    foreign key (IdQuestao) references Questoes(IdQuestao)
-)
+--
+-- Table structure for table `Questoes`
+--
 
-select max(IdJogador) from Players;
-select * from Players;
+DROP TABLE IF EXISTS `Questoes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Questoes` (
+  `IdQuestao` int(11) NOT NULL AUTO_INCREMENT,
+  `questao` varchar(1000) DEFAULT NULL,
+  `IdRespostaCorreta` int(11) NOT NULL,
+  PRIMARY KEY (`IdQuestao`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-update Arvores set NomeArvore = "arvoreNome" where IdJogador = 5;
+--
+-- Dumping data for table `Questoes`
+--
 
-select * from Players inner join Arvores on Players.IdJogador=Arvores.IdJogador where Players.IdJogador = 5;
+LOCK TABLES `Questoes` WRITE;
+/*!40000 ALTER TABLE `Questoes` DISABLE KEYS */;
+INSERT INTO `Questoes` VALUES (1,'Qual das alternativas descreve melhor o processo conhecido por Reciclagem?',4),(2,'Como separar corretamente seu lixo?',6),(3,'O que é coleta seletiva?',9);
+/*!40000 ALTER TABLE `Questoes` ENABLE KEYS */;
+UNLOCK TABLES;
 
-INSERT INTO `Game`.`Questoes` (`questao`, `IdRespostaCorreta`) VALUES ('Qual das alternativas descreve melhor o processo conhecido por Reciclagem?
-', '4');
-INSERT INTO `Game`.`Questoes` (`questao`, `IdRespostaCorreta`) VALUES ('Como separar corretamente seu lixo?', '6');
-INSERT INTO `Game`.`Questoes` (`questao`, `IdRespostaCorreta`) VALUES ('O que é coleta seletiva?', '9');
+--
+-- Table structure for table `Respostas`
+--
 
+DROP TABLE IF EXISTS `Respostas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Respostas` (
+  `IdResposta` int(11) NOT NULL AUTO_INCREMENT,
+  `IdQuestao` int(11) NOT NULL,
+  `resposta` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`IdResposta`),
+  KEY `IdQuestao` (`IdQuestao`),
+  CONSTRAINT `Respostas_ibfk_1` FOREIGN KEY (`IdQuestao`) REFERENCES `Questoes` (`IdQuestao`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `Respostas`
+--
 
+LOCK TABLES `Respostas` WRITE;
+/*!40000 ALTER TABLE `Respostas` DISABLE KEYS */;
+INSERT INTO `Respostas` VALUES (1,1,'“Jogar fora” o lixo produzido.'),(2,1,'Coletar todo tipo de material existente em lixos recicláveis.'),(3,1,'Nome dado para todo o processo do lixo após seu descarte.'),(4,1,'Processo de transformação de materiais usados em novos produtos para consumo.'),(5,2,'Juntar tudo na lixeira, pois os prédios já fazem o trabalho de separação.\n'),(6,2,'Separar o lixo orgânico (restos de alimentos, papel sujo e lixo sanitário) dos resíduos sólidos (como plástico, vidro, papel, metal e embalagens longa vida).\n'),(7,2,'Deixar plásticos sujos junto com lixo orgânico.'),(8,2,'Juntar todo tipo de lixo e descartar em ponto de coleta.'),(9,3,'Processo de separação e recolhimento dos resíduos para o reaproveitamento por meio de reciclagem.'),(10,3,'Destinação de resíduos para lixões e aterros.'),(11,3,'Processo de envio de todo o lixo produzido para cooperativas ou entrega para catadores de rua.'),(12,3,'A escolha aleatória do melhor lixo produzido.');
+/*!40000 ALTER TABLE `Respostas` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-INSERT INTO `Game`.`Respostas` (`IdResposta`, `IdQuestao`, `resposta`) VALUES ('1', '1', '“Jogar fora” o lixo produzido.');
-INSERT INTO `Game`.`Respostas` (`IdResposta`, `IdQuestao`, `resposta`) VALUES ('2', '1', 'Coletar todo tipo de material existente em lixos recicláveis.');
-INSERT INTO `Game`.`Respostas` (`IdResposta`, `IdQuestao`, `resposta`) VALUES ('3', '1', 'Nome dado para todo o processo do lixo após seu descarte.');
-INSERT INTO `Game`.`Respostas` (`IdResposta`, `IdQuestao`, `resposta`) VALUES ('4', '1', 'Processo de transformação de materiais usados em novos produtos para consumo.');
-INSERT INTO `Game`.`Respostas` (`IdResposta`, `IdQuestao`, `resposta`) VALUES ('5', '2', 'Juntar tudo na lixeira, pois os prédios já fazem o trabalho de separação.\n');
-INSERT INTO `Game`.`Respostas` (`IdResposta`, `IdQuestao`, `resposta`) VALUES ('6', '2', 'Separar o lixo orgânico (restos de alimentos, papel sujo e lixo sanitário) dos resíduos sólidos (como plástico, vidro, papel, metal e embalagens longa vida).\n');
-INSERT INTO `Game`.`Respostas` (`IdResposta`, `IdQuestao`, `resposta`) VALUES ('7', '2', 'Deixar plásticos sujos junto com lixo orgânico.');
-INSERT INTO `Game`.`Respostas` (`IdResposta`, `IdQuestao`, `resposta`) VALUES ('8', '2', 'Juntar todo tipo de lixo e descartar em ponto de coleta.');
-INSERT INTO `Game`.`Respostas` (`IdResposta`, `IdQuestao`, `resposta`) VALUES ('9', '3', 'Processo de separação e recolhimento dos resíduos para o reaproveitamento por meio de reciclagem.');
-INSERT INTO `Game`.`Respostas` (`IdResposta`, `IdQuestao`, `resposta`) VALUES ('10', '3', 'Destinação de resíduos para lixões e aterros.');
-INSERT INTO `Game`.`Respostas` (`IdResposta`, `IdQuestao`, `resposta`) VALUES ('11', '3', 'Processo de envio de todo o lixo produzido para cooperativas ou entrega para catadores de rua.');
-INSERT INTO `Game`.`Respostas` (`IdResposta`, `IdQuestao`, `resposta`) VALUES ('12', '3', 'A escolha aleatória do melhor lixo produzido.');
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+-- Dump completed on 2018-06-02 10:07:38
