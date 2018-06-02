@@ -75,7 +75,6 @@ public class QuizController implements Initializable {
     void enviar(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        //if(grupoAlternativas.getSelectedToggle().getUserData() != null){
         try{
             if(Integer.parseInt(grupoAlternativas.getSelectedToggle().getUserData().toString()) == idRespostaCerta){
                 alert.setHeaderText("Informação");
