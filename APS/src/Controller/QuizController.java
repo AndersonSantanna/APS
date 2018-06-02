@@ -75,7 +75,7 @@ public class QuizController implements Initializable {
     void enviar(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        if(grupoAlternativas.getSelectedToggle().getUserData() != null){
+        try{
             if(Integer.parseInt(grupoAlternativas.getSelectedToggle().getUserData().toString()) == idRespostaCerta){
                 alert.setHeaderText("Informação");
                 alert.setContentText("Resposta correta ! você acaba de ganhar mais recursos para utilizar na sua árvore!");
@@ -87,7 +87,7 @@ public class QuizController implements Initializable {
                 alert.setContentText("Resposta errada :( tente novamente !");
                 alert.showAndWait();
             }
-        }else{
+        }catch(NullPointerException e){
             alert.setHeaderText("Informação");
             alert.setContentText("Selecione pelo menos uma das alternativas!");
             alert.showAndWait();
